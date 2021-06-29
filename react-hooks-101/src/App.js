@@ -1,26 +1,28 @@
 import React, { useState } from "react";
 
 const App = (props) => {
-  // stateで管理
-  const [name, setName] = useState(props.name);
-  const [price, setPrice] = useState(props.price);
-
-  const reset = () => {
-    setName(props.name);
-    setPrice(props.price);
-  };
+  // オブジェクトはそのまま渡すことが可能
+  const [state, setState] = useState(props);
+  const { name, price } = state;
 
   return (
     <React.Fragment>
       <p>
         現在の{name}は、{price}円です
       </p>
-      <button onClick={() => setPrice(price + 1)}>+1</button>
-      <button onClick={() => setPrice(price - 1)}>-1</button>
-      <button onClick={reset}>Reset</button>
+      <button onClick={() => setState({ ...state, price: price + 1 })}>
+        +1
+      </button>
+      <button onClick={() => setState({ ...state, price: price - 1 })}>
+        -1
+      </button>
+      <button onClick={() => setState(props)}>Reset</button>
 
-      {/* inputに入力した文字列を拾ってオンチェンジに渡すとsetNameが書き換わる */}
-      <input value={name} onChange={(e) => setName(e.target.value)} />
+      {/* inputに入力された文字列を拾ってオンチェンジに渡す→setNameが書き換わる */}
+      <input
+        value={name}
+        onChange={(e) => setState({ ...state, name: e.target.value })}
+      />
     </React.Fragment>
   );
 };
