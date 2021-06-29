@@ -1,39 +1,41 @@
 import React, { useState } from "react";
 
-const App = () => {
-  const [count, setCount] = useState(0);
-  const increment = () => setCount(count + 1);
-  const decrement = () => setCount(count - 1);
-
-  const increment2 = () => setCount((previousCount) => previousCount + 1);
-  const decrement2 = () => setCount((previousCount) => previousCount - 1);
-
-  const reset = () => setCount(0);
-  const twice = () => setCount(count * 2);
-  const divide3 = () =>
-    setCount((previousCount) =>
-      previousCount % 3 === 0 ? previousCount / 3 : previousCount
-    );
-  console.log({ divide3 });
+const App = (props) => {
+  // オブジェクトはそのまま渡すことが可能
+  const [state, setState] = useState(props);
+  const { name, price } = state;
 
   return (
     <React.Fragment>
-      <div>count: {count}</div>
-      <div>
-        <button onClick={increment}>+1</button>
-        <button onClick={decrement}>-1</button>
-      </div>
-      <div>
-        <button onClick={increment2}>+1</button>
-        <button onClick={decrement2}>-1</button>
-      </div>
-      <div>
-        <button onClick={reset}>Reset</button>
-        <button onClick={twice}>x2</button>
-        <button onClick={divide3}>3の倍数のときだけ3で割る</button>
-      </div>
+      <p>
+        現在の{name}は、{price}円です
+      </p>
+      <button onClick={() => setState({ ...state, price: price + 1 })}>
+        +1
+      </button>
+      <button onClick={() => setState({ ...state, price: price - 1 })}>
+        -1
+      </button>
+      <button onClick={() => setState(props)}>Reset</button>
+
+      {/* inputに入力された文字列を拾ってオンチェンジに渡す→setNameが書き換わる */}
+      <input
+        value={name}
+        onChange={(e) => setState({ ...state, name: e.target.value })}
+      />
     </React.Fragment>
   );
 };
 
+// 初期値を定義（こちらでも可）
+App.defaultProps = {
+  name: "",
+  price: 1000,
+};
+
+// 初期値を定義;
+// const initialStates = {
+//   name: "",
+//   price: 1000,
+// };
 export default App;
