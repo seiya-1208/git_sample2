@@ -12,14 +12,15 @@ import reducer from "../reducers";
 const App = () => {
   // useReducerを使って状態（state）とdispatchを使うという処理を定義する
   const [state, dispatch] = useReducer(reducer, []);
-  console.log(state, "in App.js");
+  // console.log(state, "in App.js");
 
   return (
-    <AppContext.Provider value={"HEllo, provider"}>
+    <AppContext.Provider value={{ state, dispatch }}>
       <div className="container-fluid">
-        {/* {state}は[配列]を、{dispatch}は関数を渡している */}
-        <EventForm state={state} dispatch={dispatch} />
-        <Events state={state} dispatch={dispatch} />
+        {/* {state}は[配列]を、{dispatch}は関数を渡している
+        ⇒　useContextでリファクタリング。providerでvalueを渡すことができる */}
+        <EventForm />
+        <Events />
       </div>
     </AppContext.Provider>
   );
