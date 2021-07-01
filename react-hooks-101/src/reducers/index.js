@@ -1,3 +1,4 @@
+import { DELETE_EVENT, CREATE_EVENT, DELETE_ALL_EVENTS } from "../actions";
 // action = {
 //     type: 'CREATE_EVENT',
 //     title: '2020年東京オリンピックのお知らせ',
@@ -35,7 +36,7 @@
 
 const events = (state = [], action) => {
   switch (action.type) {
-    case "CREATE_EVENT":
+    case CREATE_EVENT:
       const event = {
         title: action.title,
         body: action.body,
@@ -55,10 +56,11 @@ const events = (state = [], action) => {
       //   idを拾う。なにもない場合は[1]。そうでなければ、前の状態に+1した数字になるというのが1文でかける
       const id = length === 0 ? 1 : state[length - 1].id + 1;
       return [...state, { id, ...event }];
-      return state;
-    case "DELETE_EVENT":
-      return state;
-    case "DELETE_ALL_EVENTS":
+    //   return state;
+    case DELETE_EVENT:
+      return state.filter((event) => event.id !== action.id);
+
+    case DELETE_ALL_EVENTS:
       return [];
 
     default:
