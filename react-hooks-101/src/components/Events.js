@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Event from "./Event";
+import AppContext from "../contexts/AppContext";
 
+// propで渡されるものは関数コンポーネントでは引数として渡される
 const Events = ({ state, dispatch }) => {
+  const value = useContext(AppContext);
   return (
     <React.Fragment>
       <h4>イベント一覧</h4>
@@ -15,33 +18,13 @@ const Events = ({ state, dispatch }) => {
           </tr>
         </thead>
         <tbody>
+          {/* stateは各イベントを保持する。mapメソッドで拾ってイベントに関する情報を伝播している */}
+          {/* dispatchはEventsコンポーネントでは直接的に状態を変える actionは存在しないがDELETEのために垂れ流している*/}
           {state.map((event, index) => (
             <Event key={index} event={event} dispatch={dispatch} />
           ))}
 
           {/* ↑リファクタリングして別のファイルに移行　 */}
-          {/* {state.map((event, index) => {
-            const id = event.id;
-            const handleClickDeleteButton = () => {
-              dispatch({ type: "DELETE_EVENT", id });
-            };
-            return (
-              <tr key={index}>
-                <td>{id}</td>
-                <td>{event.title}</td>
-                <td>{event.body}</td>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={handleClickDeleteButton}
-                  >
-                    削除
-                  </button>
-                </td>
-              </tr>
-            );
-          })} */}
         </tbody>
       </table>
     </React.Fragment>
